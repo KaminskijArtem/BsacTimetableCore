@@ -32,7 +32,18 @@ namespace BsacTimetableCore.Controllers
 
             ViewBag.tests = tests;
 
+            var cns = (from s in _context.Record select s).ToList(); // (date test);
 
+            //Faculty newFaculty = new Faculty{NameFaculty = "TestFuck"};
+            //_context.Faculty.Add(newFaculty);
+            
+            Cancellation newStudent = new Cancellation{
+                IdRecord = 40, 
+                DateFrom = new DateTime(1000),
+                DateTo = new DateTime(1000)};
+
+            _context.Cancellation.Add(newStudent);
+            var a = _context.SaveChanges();
             return View();
         }
 

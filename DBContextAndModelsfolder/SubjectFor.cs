@@ -10,7 +10,7 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
             Record = new HashSet<Record>();
         }
 
-        public sbyte Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public ICollection<Record> Record { get; set; }

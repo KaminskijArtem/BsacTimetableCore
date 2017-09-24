@@ -11,14 +11,16 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
         }
 
         public int IdRecord { get; set; }
-        public sbyte WeekNumber { get; set; }
-        public sbyte WeekDay { get; set; }
-        public sbyte SubjOrdinalNumber { get; set; }
+        public int WeekNumber { get; set; }
+        public int WeekDay { get; set; }
+        public int SubjOrdinalNumber { get; set; }
+        public DateTime DateTo { get; set; }
+        public DateTime DateFrom { get; set; }
         public int IdGroup { get; set; }
         public short IdSubject { get; set; }
         public short IdLecturer { get; set; }
         public int IdSubjectType { get; set; }
-        public sbyte IdSubjectFor { get; set; }
+        public int IdSubjectFor { get; set; }
         public short IdClassroom { get; set; }
 
         public Classroom IdClassroomNavigation { get; set; }

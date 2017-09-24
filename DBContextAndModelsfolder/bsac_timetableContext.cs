@@ -37,6 +37,12 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
                     .HasColumnType("int(10) unsigned")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.DateFrom)
+                    .HasColumnName("date_from");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnName("date_to");
+
                 entity.Property(e => e.IdRecord)
                     .HasColumnName("id_record")
                     .HasColumnType("int(10) unsigned");
@@ -223,6 +229,12 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
                 entity.HasKey(e => e.IdRecord);
 
                 entity.ToTable("record");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnName("date_from");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnName("date_to");
 
                 entity.HasIndex(e => e.IdClassroom)
                     .HasName("fk_main_classroom1_idx");
