@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BsacTimetableCore.Models;
+using BsacTimetableCore.DBContextAndModelsfolder;
 
 namespace BsacTimetableCore.Controllers
 {
@@ -12,6 +13,17 @@ namespace BsacTimetableCore.Controllers
     {
         public IActionResult Index()
         {
+            using (var context = new bsac_timetableContext())
+            {
+
+                var tests = context.Group.Select(p => 
+                new GroupViewModel{IdGroup = p.IdGroup,  NameGroup = p.NameGroup}).ToList();
+
+
+                ViewBag.tests = tests;
+            }
+
+
             return View();
         }
 
