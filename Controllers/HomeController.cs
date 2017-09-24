@@ -11,17 +11,26 @@ namespace BsacTimetableCore.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly bsac_timetableContext _context;
+
+        public HomeController(bsac_timetableContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            using (var context = new bsac_timetableContext())
-            {
+            
 
-                var tests = context.Group.Select(p => 
-                new GroupViewModel{IdGroup = p.IdGroup,  NameGroup = p.NameGroup}).ToList();
+            var ss = (from s in _context.Faculty 
+                join sa in _context.Group 
+                on s.IdFaculty equals sa.IdFaculty
+                select new {s.NameFaculty, s.IdFaculty, sa.NameGroup, sa.IdGroup, IdFaculty2 = sa.IdFaculty}).ToList();//Test Join
+
+            var tests = (from p in _context.Group 
+            select new GroupViewModel{IdGroup = p.IdGroup,  NameGroup = p.NameGroup}).ToList();
 
 
-                ViewBag.tests = tests;
-            }
+            ViewBag.tests = tests;
 
 
             return View();

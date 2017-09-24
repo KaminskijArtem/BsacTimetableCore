@@ -6,6 +6,9 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
 {
     public partial class bsac_timetableContext : DbContext
     {
+        public bsac_timetableContext(DbContextOptions<bsac_timetableContext> options) : base(options)
+        {
+        }
         public virtual DbSet<Cancellation> Cancellation { get; set; }
         public virtual DbSet<Chair> Chair { get; set; }
         public virtual DbSet<Classroom> Classroom { get; set; }
@@ -17,15 +20,6 @@ namespace BsacTimetableCore.DBContextAndModelsfolder
         public virtual DbSet<Subject> Subject { get; set; }
         public virtual DbSet<SubjectFor> SubjectFor { get; set; }
         public virtual DbSet<SubjectType> SubjectType { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Server=localhost;UserId=root;Password=Kalivo777;Database=bsac_timetable");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
