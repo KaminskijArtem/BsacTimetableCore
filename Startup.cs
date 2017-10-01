@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BsacTimetableCore.DBContextAndModelsfolder;
+using BsacTimetableCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,7 @@ namespace BsacTimetableCore
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Student/Error");
             }
 
             app.UseStaticFiles();
@@ -47,7 +48,7 @@ namespace BsacTimetableCore
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Student}/{action=Index}/{id?}");
             });
         }
     }
