@@ -10,29 +10,29 @@ using BsacTimetableCore.Services;
 
 namespace BsacTimetableCore.Controllers
 {
-    public class StudentController : Controller
+    public class LectureController : Controller
     {
         private readonly bsac_timetableContext _context;
 
-        public StudentController(bsac_timetableContext context)
+        public LectureController(bsac_timetableContext context)
         {
             _context = context;
         }
         public IActionResult Index(string searchString, int? page)
         {
             ViewData["searchString"] = searchString;
-            var groups = (from p in _context.Group 
-            select new GroupViewModel{IdGroup = p.IdGroup,  NameGroup = p.NameGroup});
+            var lecturers = (from p in _context.Lecturer 
+            select new LectureViewModel{IdLecturer = p.IdLecturer,  NameLecturer = p.NameLecturer});
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                groups = groups.Where(g => g.NameGroup.Contains(searchString));
+                lecturers = lecturers.Where(g => g.NameLecturer.Contains(searchString));
             }
 
-            return View(PaginatedList<GroupViewModel>.Create(groups, page ?? 1, 10));
+            return View(PaginatedList<LectureViewModel>.Create(lecturers, page ?? 1, 10));
         }
         
-        public IActionResult DetailsCurrWeek(int idgroup, int subgroup)
+        public IActionResult DetailsCurrWeek(int id)
         {
             return View();
         }
