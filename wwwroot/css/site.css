@@ -33,3 +33,7 @@
         display: none;
     }
 }
+.vertical-center {
+    vertical-align: middle !important;
+    text-align: center !important;
+}

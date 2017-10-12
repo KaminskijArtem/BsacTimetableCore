@@ -22,6 +22,7 @@ namespace BsacTimetableCore.Controllers
         {
             ViewData["searchString"] = searchString;
             var groups = (from p in _context.Group
+                          orderby p.IdGroup
                           select new GroupViewModel { IdGroup = p.IdGroup, NameGroup = p.NameGroup });
 
             if (!String.IsNullOrEmpty(searchString))
@@ -42,9 +43,19 @@ namespace BsacTimetableCore.Controllers
                                      select p.NameGroup).First();
 
             var records = (from r in _context.Record
-                            join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
+                           join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
+                           join s in _context.Subject on r.IdSubject equals s.IdSubject
                            where r.IdGroup == idgroup
-                           select new StudentRecordViewModel { IdRecord = r.IdRecord, WeekDay = r.WeekDay, WeekNumber = r.WeekNumber, LectureName = l.NameLecturer}
+                           orderby r.WeekDay, r.SubjOrdinalNumber
+                           select new StudentRecordViewModel
+                           {
+                               IdRecord = r.IdRecord,
+                               WeekDay = r.WeekDay,
+                               WeekNumber = r.WeekNumber,
+                               LectureName = l.NameLecturer,
+                               SubjectName = s.AbnameSubject,
+                               SubjOrdinalNumber = r.SubjOrdinalNumber
+                           }
             ).ToList();
 
             return View(records);

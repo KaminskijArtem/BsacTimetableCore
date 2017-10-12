@@ -3,10 +3,37 @@
 
 <h4>@ViewData["currWeek"]-я учебная неделя</h4>
 <h4>@ViewData["groupName"], @ViewData["subgroup"]-я подгруппа</h4>
-
-@foreach (var item in Model)
-    {
-            
-        <h4>@(item.IdRecord)</h4>
+@{
+    var dayOfWeek = 0;
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Время</th>
+            <th colspan="2">1я неделя</th>
+            <th colspan="2">2я неделя</th>
+            <th colspan="2">3я неделя</th>
+            <th colspan="2">4я неделя</th>
+        </tr>
+    </thead>
+    <body>
+        @foreach (var item in Model)
+        {
+            if (item.WeekDay != dayOfWeek)
+            {
+                dayOfWeek = item.WeekDay;
+                @Html.Partial("_DayName", dayOfWeek)
+            }
+            <tr>
                 
-    }
+                @Html.Partial("_TimeTD", item.SubjOrdinalNumber)
+                <td>@(item.SubjectName) </td>
+                <td rowspan="2" class="vertical-center">@(item.WeekDay) @(item.WeekNumber) @(item.SubjOrdinalNumber)</td>
+            </tr>
+            <tr>
+                <td>@(item.LectureName)</td>
+
+            </tr>
+        }
+    </body>
+</table>
