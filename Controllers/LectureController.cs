@@ -32,7 +32,7 @@ namespace BsacTimetableCore.Controllers
             return View(PaginatedList<LectureViewModel>.Create(lecturers, page ?? 1, 10));
         }
         
-        public IActionResult DetailsCurrWeek(int id)
+        public IActionResult DetailsWeek(int id)
         {
             return View();
         }
