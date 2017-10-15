@@ -6,6 +6,7 @@
 @{
     var dayOfWeek = 0;
     var TempSubjOrdNumb = 0;
+    var lessonsForFourWeeks = new List<StudentRecordViewModel>();
 }
 <table class="table table-bordered">
     <thead>
@@ -26,24 +27,13 @@
                 @Html.Partial("_DayName", dayOfWeek)
                 TempSubjOrdNumb = 0;
             }
+
+            
+
             if (Model[i].SubjOrdinalNumber == TempSubjOrdNumb)
             {
+                lessonsForFourWeeks.Add(Model[i]);
                 <tr>
-                    
-                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
-                    <td>@(Model[i].SubjectName) ! @(Model[i].IdRecord)</td>
-                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
-
-                </tr>
-                <tr>
-                    <td>@(Model[i].LectureName)</td>
-
-                </tr>
-            }
-            else
-            {
-                <tr>
-                    
                     @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
                     <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
                     <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
@@ -51,10 +41,30 @@
                 </tr>
                 <tr>
                     <td>@(Model[i].LectureName)</td>
-
                 </tr>
             }
-            TempSubjOrdNumb = Model[i].SubjOrdinalNumber;
+            else
+            {
+                TempSubjOrdNumb = Model[i].SubjOrdinalNumber;
+
+                <tr>
+                    <td>!</td>
+                    <td rowspan="2" class="vertical-center">!</td>
+                </tr>
+                <tr>
+                    <td>!</td>
+                </tr>
+                <tr>
+                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
+                    <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
+                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
+
+                </tr>
+                <tr>
+                    <td>@(Model[i].LectureName)</td>
+                </tr>
+            }
+            
         }
     </body>
 </table>
