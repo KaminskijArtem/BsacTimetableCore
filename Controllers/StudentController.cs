@@ -45,8 +45,10 @@ namespace BsacTimetableCore.Controllers
             var records = (from r in _context.Record
                            join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
                            join s in _context.Subject on r.IdSubject equals s.IdSubject
-                           where r.IdGroup == idgroup
-                           orderby r.WeekDay, r.SubjOrdinalNumber
+                           join c in _context.Classroom on r.IdClassroom equals c.IdClassroom
+                           where (r.IdGroup == idgroup)
+                           //    && (r.DateTo >= DateTime.Today && r.DateFrom <= DateTime.Today)
+                           orderby r.WeekDay, r.SubjOrdinalNumber, r.WeekNumber
                            select new StudentRecordViewModel
                            {
                                IdRecord = r.IdRecord,
@@ -54,7 +56,9 @@ namespace BsacTimetableCore.Controllers
                                WeekNumber = r.WeekNumber,
                                LectureName = l.NameLecturer,
                                SubjectName = s.AbnameSubject,
-                               SubjOrdinalNumber = r.SubjOrdinalNumber
+                               SubjOrdinalNumber = r.SubjOrdinalNumber,
+                               Classroom = c.Name + " (к." + c.Building + ")"
+
                            }
             ).ToList();
 

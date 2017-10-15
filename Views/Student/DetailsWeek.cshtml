@@ -5,6 +5,7 @@
 <h4>@ViewData["groupName"], @ViewData["subgroup"]-я подгруппа</h4>
 @{
     var dayOfWeek = 0;
+    var TempSubjOrdNumb = 0;
 }
 <table class="table table-bordered">
     <thead>
@@ -17,23 +18,43 @@
         </tr>
     </thead>
     <body>
-        @foreach (var item in Model)
+        @for(var i = 0; i<Model.Count; i++)
         {
-            if (item.WeekDay != dayOfWeek)
+            if (Model[i].WeekDay != dayOfWeek)
             {
-                dayOfWeek = item.WeekDay;
+                dayOfWeek = Model[i].WeekDay;
                 @Html.Partial("_DayName", dayOfWeek)
+                TempSubjOrdNumb = 0;
             }
-            <tr>
-                
-                @Html.Partial("_TimeTD", item.SubjOrdinalNumber)
-                <td>@(item.SubjectName) </td>
-                <td rowspan="2" class="vertical-center">@(item.WeekDay) @(item.WeekNumber) @(item.SubjOrdinalNumber)</td>
-            </tr>
-            <tr>
-                <td>@(item.LectureName)</td>
+            if (Model[i].SubjOrdinalNumber == TempSubjOrdNumb)
+            {
+                <tr>
+                    
+                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
+                    <td>@(Model[i].SubjectName) ! @(Model[i].IdRecord)</td>
+                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
 
-            </tr>
+                </tr>
+                <tr>
+                    <td>@(Model[i].LectureName)</td>
+
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    
+                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
+                    <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
+                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
+
+                </tr>
+                <tr>
+                    <td>@(Model[i].LectureName)</td>
+
+                </tr>
+            }
+            TempSubjOrdNumb = Model[i].SubjOrdinalNumber;
         }
     </body>
 </table>
