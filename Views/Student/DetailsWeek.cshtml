@@ -42,18 +42,13 @@
                 <tr>
                     <td>@(Model[i].LectureName)</td>
                 </tr>
+                TempSubjOrdNumb = 0;
             }
             else
             {
                 TempSubjOrdNumb = Model[i].SubjOrdinalNumber;
-
-                <tr>
-                    <td>!</td>
-                    <td rowspan="2" class="vertical-center">!</td>
-                </tr>
-                <tr>
-                    <td>!</td>
-                </tr>
+                
+                lessonsForFourWeeks.Add(Model[i]);
                 <tr>
                     @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
                     <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
@@ -63,6 +58,16 @@
                 <tr>
                     <td>@(Model[i].LectureName)</td>
                 </tr>
+                <tr>
+                    <td>! @lessonsForFourWeeks.Count</td>
+                    <td rowspan="2" class="vertical-center">!</td>
+                </tr>
+                <tr>
+                    <td>!</td>
+                </tr>
+                lessonsForFourWeeks.Clear();
+                
+                
             }
             
         }
