@@ -21,54 +21,35 @@
     <body>
         @for(var i = 0; i<Model.Count; i++)
         {
+            
+            @for(var j = 0; j<lessonsForFourWeeks.Count; j++)
+            {
+                if(lessonsForFourWeeks[j].SubjOrdinalNumber != Model[i].SubjOrdinalNumber)
+                {
+                    @Html.Partial("_FourLessons", lessonsForFourWeeks)
+                    lessonsForFourWeeks.Clear();
+                }
+            }
+            lessonsForFourWeeks.Add(Model[i]);
+            
             if (Model[i].WeekDay != dayOfWeek)
             {
                 dayOfWeek = Model[i].WeekDay;
                 @Html.Partial("_DayName", dayOfWeek)
-                TempSubjOrdNumb = 0;
             }
-
+            <tr>
+                @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
+                <td>@(Model[i].SubjectName) @lessonsForFourWeeks.Count</td>
+                <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
+            </tr>
+            <tr>
+                <td>@(Model[i].LectureName)</td>
+            </tr>
+            if (i == Model.Count-1)
+            {
+                @Html.Partial("_FourLessons", lessonsForFourWeeks)
+            }
             
-
-            if (Model[i].SubjOrdinalNumber == TempSubjOrdNumb)
-            {
-                lessonsForFourWeeks.Add(Model[i]);
-                <tr>
-                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
-                    <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
-                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
-
-                </tr>
-                <tr>
-                    <td>@(Model[i].LectureName)</td>
-                </tr>
-                TempSubjOrdNumb = 0;
-            }
-            else
-            {
-                TempSubjOrdNumb = Model[i].SubjOrdinalNumber;
-                
-                lessonsForFourWeeks.Add(Model[i]);
-                <tr>
-                    @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
-                    <td>@(Model[i].SubjectName) @(Model[i].IdRecord)</td>
-                    <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
-
-                </tr>
-                <tr>
-                    <td>@(Model[i].LectureName)</td>
-                </tr>
-                <tr>
-                    <td>! @lessonsForFourWeeks.Count</td>
-                    <td rowspan="2" class="vertical-center">!</td>
-                </tr>
-                <tr>
-                    <td>!</td>
-                </tr>
-                lessonsForFourWeeks.Clear();
-                
-                
-            }
             
         }
     </body>
