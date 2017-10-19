@@ -1,5 +1,52 @@
 @model List<StudentRecordViewModel>
 
 <tr>
-    <td>@Model.Count</td>
+    @{var j = 0;}
+    @Html.Partial("_TimeTD", Model[0].SubjOrdinalNumber)
+    @for(var i = 1; i<=4; i++)
+    {
+        if(Model.Count > j)
+        {
+            if(Model[j].WeekNumber == i)
+            {
+                <td>@(Model[j].SubjectName) (@(Model[j].IdRecord))</td>
+                <td rowspan="2" class="vertical-center">@Model[j].Classroom</td>
+                j++;
+            }
+             else
+            {
+                <td></td>
+                <td rowspan="2" class="vertical-center"></td>
+            } 
+        }
+        else
+        {
+            <td></td>
+            <td rowspan="2" class="vertical-center"></td>
+        }
+    }
+    
+</tr>
+<tr>
+    @{j = 0;}
+    @for(var i = 1; i<=4; i++)
+    {
+        if(Model.Count > j)
+        {
+            if(Model[j].WeekNumber == i)
+            {
+                <td>@(Model[j].LectureName)</td>
+                j++;
+            }
+             else
+            {
+                <td></td>
+            }
+        }
+        else
+        {
+            <td></td>
+        }
+    }
+
 </tr>

@@ -24,7 +24,7 @@
             
             @for(var j = 0; j<lessonsForFourWeeks.Count; j++)
             {
-                if(lessonsForFourWeeks[j].SubjOrdinalNumber != Model[i].SubjOrdinalNumber)
+                if(lessonsForFourWeeks[j].SubjOrdinalNumber != Model[i].SubjOrdinalNumber || lessonsForFourWeeks[j].WeekDay != Model[i].WeekDay)
                 {
                     @Html.Partial("_FourLessons", lessonsForFourWeeks)
                     lessonsForFourWeeks.Clear();
@@ -37,14 +37,7 @@
                 dayOfWeek = Model[i].WeekDay;
                 @Html.Partial("_DayName", dayOfWeek)
             }
-            <tr>
-                @Html.Partial("_TimeTD", Model[i].SubjOrdinalNumber)
-                <td>@(Model[i].SubjectName) @lessonsForFourWeeks.Count</td>
-                <td rowspan="2" class="vertical-center">@Model[i].Classroom (день@(Model[i].WeekDay) нед@(Model[i].WeekNumber) ном@(Model[i].SubjOrdinalNumber))</td>
-            </tr>
-            <tr>
-                <td>@(Model[i].LectureName)</td>
-            </tr>
+
             if (i == Model.Count-1)
             {
                 @Html.Partial("_FourLessons", lessonsForFourWeeks)
