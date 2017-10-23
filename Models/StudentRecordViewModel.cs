@@ -11,5 +11,7 @@ namespace BsacTimetableCore.Models
         public string SubjectName { get; set; }
         public int SubjOrdinalNumber { get; set; }
         public string Classroom { get; set; }
+        public int IdSubjectType { get; set; }
+
     }
 }

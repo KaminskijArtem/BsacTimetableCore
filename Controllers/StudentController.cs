@@ -42,24 +42,28 @@ namespace BsacTimetableCore.Controllers
                                      where p.IdGroup == idgroup
                                      select p.NameGroup).First();
 
+            var sgId = subgroup + 2;//IDK why, but it shoud be before linq
+
             var records = (from r in _context.Record
                            join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
                            join s in _context.Subject on r.IdSubject equals s.IdSubject
                            join c in _context.Classroom on r.IdClassroom equals c.IdClassroom
-                           where (r.IdGroup == idgroup)
+                           where (r.IdGroup == idgroup) &&
+                           new[] { sgId, 1, 2 }.Contains(r.IdSubjectFor)
+
                            //    && (r.DateTo >= DateTime.Today && r.DateFrom <= DateTime.Today)
                            orderby r.WeekDay, r.SubjOrdinalNumber, r.WeekNumber
                            select new StudentRecordViewModel
-                           {
-                               IdRecord = r.IdRecord,
-                               WeekDay = r.WeekDay,
-                               WeekNumber = r.WeekNumber,
-                               LectureName = l.NameLecturer,
-                               SubjectName = s.AbnameSubject,
-                               SubjOrdinalNumber = r.SubjOrdinalNumber,
-                               Classroom = c.Name + " (к." + c.Building + ")"
-
-                           }
+                            {
+                                IdRecord = r.IdRecord,
+                                WeekDay = r.WeekDay,
+                                WeekNumber = r.WeekNumber,
+                                LectureName = l.NameLecturer,
+                                SubjectName = s.AbnameSubject,
+                                SubjOrdinalNumber = r.SubjOrdinalNumber,
+                                Classroom = c.Name + " (к." + c.Building + ")",
+                                IdSubjectType = r.IdSubjectType
+                            }
             ).ToList();
 
             return View(records);
