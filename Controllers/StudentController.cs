@@ -18,37 +18,57 @@ namespace BsacTimetableCore.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string searchString, int? page)
         {
-            var groups = (from p in _context.Group 
-            select new GroupViewModel{IdGroup = p.IdGroup,  NameGroup = p.NameGroup}).ToList();
+            ViewData["searchString"] = searchString;
+            var groups = (from p in _context.Group
+                          orderby p.IdGroup
+                          select new GroupViewModel { IdGroup = p.IdGroup, NameGroup = p.NameGroup });
 
-            ViewBag.groups = groups;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                groups = groups.Where(g => g.NameGroup.Contains(searchString));
+            }
 
+            return View(PaginatedList<GroupViewModel>.Create(groups, page ?? 1, 10));
+        }
+
+        public IActionResult DetailsWeek(int idgroup, int subgroup)
+        {
             IAcessoryService service = new AcessoryService();
-            var a = service.GetCurrentWeek();
+            ViewData["currWeek"] = service.GetCurrentWeek();
+            ViewData["subgroup"] = subgroup;
+            ViewData["groupName"] = (from p in _context.Group
+                                     where p.IdGroup == idgroup
+                                     select p.NameGroup).First();
 
-            return View();
-        }
+            var records = (from r in _context.Record
+                           join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
+                           join s in _context.Subject on r.IdSubject equals s.IdSubject
+                           join c in _context.Classroom on r.IdClassroom equals c.IdClassroom
+                           where (r.IdGroup == idgroup)
+                           //    && (r.DateTo >= DateTime.Today && r.DateFrom <= DateTime.Today)
+                           orderby r.WeekDay, r.SubjOrdinalNumber, r.WeekNumber
+                           select new StudentRecordViewModel
+                           {
+                               IdRecord = r.IdRecord,
+                               WeekDay = r.WeekDay,
+                               WeekNumber = r.WeekNumber,
+                               LectureName = l.NameLecturer,
+                               SubjectName = s.AbnameSubject,
+                               SubjOrdinalNumber = r.SubjOrdinalNumber,
+                               Classroom = c.Name + " (к." + c.Building + ")"
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+                           }
+            ).ToList();
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            return View(records);
         }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
+
     }
 }
