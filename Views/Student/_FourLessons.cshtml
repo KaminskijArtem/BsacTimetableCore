@@ -1,16 +1,57 @@
 @model List<StudentRecordViewModel>
 
+@functions {
+
+    string getColorByType(int type)
+    {
+        var color = "";
+        switch (type)
+        {
+            case 1: color = "#81ff57"; break;
+            case 2: color = "#ffff4d"; break;
+            case 3: color = "#ff704d"; break;
+            case 4: color = "#cce6ff"; break;
+            case 5: color = "#80c1ff"; break;
+            case 6: color = "#e184c2"; break;
+            case 7: color = "#99ffff"; break;
+                                    
+
+
+        }
+        return color;
+    }
+    string getTypeNameByType(int type)
+    {
+        var name = "";
+        switch (type)
+        {
+            case 1: name = "ЛК"; break;
+            case 2: name = "ЛР"; break;
+            case 3: name = "ПЗ"; break;
+            case 4: name = "Конс."; break;
+            case 5: name = "Зчт."; break;
+            case 6: name = "Экз."; break;
+            case 7: name = "Пер."; break;
+        }
+        return name;
+    }
+}
+
 <tr>
     @{var j = 0;}
     @Html.Partial("_TimeTD", Model[0].SubjOrdinalNumber)
     @for(var i = 1; i<=4; i++)
     {
+        
+
         if(Model.Count > j)
         {
+            var color = getColorByType(Model[j].IdSubjectType);
+
             if(Model[j].WeekNumber == i)
             {
-                <td>@(Model[j].SubjectName) (@(Model[j].IdSubjectType))</td>
-                <td rowspan="2" class="vertical-center">@Model[j].Classroom</td>
+                <td style=@("background-color:"+color)>@(Model[j].SubjectName) (@getTypeNameByType(Model[j].IdSubjectType)) @color</td>
+                <td style=@("background-color:"+color) rowspan="2" class="vertical-center">@Model[j].Classroom</td>
                 j++;
             }
              else
@@ -33,9 +74,11 @@
     {
         if(Model.Count > j)
         {
+            var color = getColorByType(Model[j].IdSubjectType);
+
             if(Model[j].WeekNumber == i)
             {
-                <td>@(Model[j].LectureName)</td>
+                <td style=@("background-color:"+color)>@(Model[j].LectureName)</td>
                 j++;
             }
              else
