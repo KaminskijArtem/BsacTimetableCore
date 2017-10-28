@@ -35,18 +35,87 @@
 }
 
 <tr>
+    @{var j = 0;}
+    @Html.Partial("_TimeTD", Model[0].SubjOrdinalNumber)
+    @for(var i = 1; i<=4; i++)
+    {
+        
 
-    @Html.Partial("_TimeTD", 1)
+        if(Model.Count > j)
+        {
+            var color = getColorByType(Model[j].IdSubjectType);
 
-                <td > @Model.Count  </td>
-                <td rowspan="2" class="vertical-center">-</td>
-
-
+            if(Model[j].WeekNumber == i)
+            {
+                while(true)
+                {
+                    if(Model.Count > j+1)
+                    {
+                        if(Model[j].WeekNumber == Model[j+1].WeekNumber)
+                        { j++; }
+                        else
+                        { break; }
+                    }
+                    else
+                    { break; }
+                }
+                <td style=@("background-color:"+color)>@(Model[j].SubjectName) (@getTypeNameByType(Model[j].IdSubjectType))     </td>
+                <td style=@("background-color:"+color) rowspan="2" class="vertical-center">@Model[j].Classroom</td>
+                j++;
+            }
+             else
+            {
+                <td></td>
+                <td rowspan="2" class="vertical-center"></td>
+            } 
+        }
+        else
+        {
+            <td></td>
+            <td rowspan="2" class="vertical-center"></td>
+        }
+    }
     
 </tr>
 <tr>
+    @{j = 0;}
+    @for(var i = 1; i<=4; i++)
+    {
+        if(Model.Count > j)
+        {
+            var color = getColorByType(Model[j].IdSubjectType);
 
+            if(Model[j].WeekNumber == i)
+            {
+
+                while(true)
+                {
+                    if(Model.Count > j+1)
+                    {
+                        if(Model[j].WeekNumber == Model[j+1].WeekNumber)
+                        {
+                            Model[j+1].GroupName += (" " + Model[j].GroupName);
+                            j++;
+                        }
+                        else
+                        { break; }
+                    }
+                    else
+                    { break; }
+                }
+
+                <td style=@("background-color:"+color)>@(Model[j].GroupName)</td>
+                j++;
+            }
+             else
+            {
+                <td></td>
+            }
+        }
+        else
+        {
             <td></td>
-
+        }
+    }
 
 </tr>
