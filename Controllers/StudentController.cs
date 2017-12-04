@@ -40,7 +40,7 @@ namespace BsacTimetableCore.Controllers
             ViewData["subgroup"] = subgroup;
             ViewData["groupName"] = (from p in _context.Group
                                      where p.IdGroup == idgroup
-                                     select p.NameGroup).First();
+                                     select p.NameGroup).First();///sdfsdfsdffds
 
             var records = (from r in _context.Record
                            join l in _context.Lecturer on r.IdLecturer equals l.IdLecturer
