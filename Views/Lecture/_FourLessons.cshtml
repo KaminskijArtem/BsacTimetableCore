@@ -1,7 +1,7 @@
-@model List<StudentRecordViewModel>
+@model List<LectureRecordViewModel>
 
-@functions 
-{
+@functions {
+
     string getColorByType(int type)
     {
         var color = "";
@@ -14,9 +14,6 @@
             case 5: color = "#80c1ff"; break;
             case 6: color = "#e184c2"; break;
             case 7: color = "#99ffff"; break;
-                                    
-
-
         }
         return color;
     }
@@ -50,6 +47,18 @@
 
             if(Model[j].WeekNumber == i)
             {
+                while(true)
+                {
+                    if(Model.Count > j+1)
+                    {
+                        if(Model[j].WeekNumber == Model[j+1].WeekNumber)
+                        { j++; }
+                        else
+                        { break; }
+                    }
+                    else
+                    { break; }
+                }
                 <td style=@("background-color:"+color)>@(Model[j].SubjectName) (@getTypeNameByType(Model[j].IdSubjectType))     </td>
                 <td style=@("background-color:"+color) rowspan="2" class="vertical-center">@Model[j].Classroom</td>
                 j++;
@@ -78,7 +87,24 @@
 
             if(Model[j].WeekNumber == i)
             {
-                <td style=@("background-color:"+color)>@(Model[j].LectureName)</td>
+
+                while(true)
+                {
+                    if(Model.Count > j+1)
+                    {
+                        if(Model[j].WeekNumber == Model[j+1].WeekNumber)
+                        {
+                            Model[j+1].GroupName += (" " + Model[j].GroupName);
+                            j++;
+                        }
+                        else
+                        { break; }
+                    }
+                    else
+                    { break; }
+                }
+
+                <td style=@("background-color:"+color)>@(Model[j].GroupName)</td>
                 j++;
             }
              else

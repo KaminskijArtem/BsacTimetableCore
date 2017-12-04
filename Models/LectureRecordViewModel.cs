@@ -2,12 +2,12 @@ using System;
 
 namespace BsacTimetableCore.Models
 {
-    public class StudentRecordViewModel
+    public class LectureRecordViewModel
     {
         public int IdRecord { get; set; }
         public int WeekDay { get; set; }
         public int WeekNumber { get; set; }
-        public string LectureName { get; set; }
+        public string GroupName { get; set; }
         public string SubjectName { get; set; }
         public int SubjOrdinalNumber { get; set; }
         public string Classroom { get; set; }

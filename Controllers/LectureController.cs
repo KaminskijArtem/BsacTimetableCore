@@ -34,7 +34,34 @@ namespace BsacTimetableCore.Controllers
         
         public IActionResult DetailsWeek(int id)
         {
-            return View();
+            IAcessoryService service = new AcessoryService();
+            ViewData["currWeek"] = service.GetCurrentWeek();
+            ViewData["lectureName"] = (from p in _context.Lecturer
+                                     where p.IdLecturer == id
+                                     select p.NameLecturer).First();
+
+            var records = (from r in _context.Record
+                           join l in _context.Group on r.IdGroup equals l.IdGroup
+                           join s in _context.Subject on r.IdSubject equals s.IdSubject
+                           join c in _context.Classroom on r.IdClassroom equals c.IdClassroom
+                           where (r.IdLecturer == id)
+
+                           //    && (r.DateTo >= DateTime.Today && r.DateFrom <= DateTime.Today)
+                           orderby r.WeekDay, r.SubjOrdinalNumber, r.WeekNumber
+                           select new LectureRecordViewModel
+                            {
+                                IdRecord = r.IdRecord,
+                                WeekDay = r.WeekDay,
+                                WeekNumber = r.WeekNumber,
+                                GroupName = l.NameGroup,
+                                SubjectName = s.AbnameSubject,
+                                SubjOrdinalNumber = r.SubjOrdinalNumber,
+                                Classroom = c.Name + " (к." + c.Building + ")",
+                                IdSubjectType = r.IdSubjectType
+                            }
+            ).ToList();
+
+            return View(records);
         }
 
         public IActionResult Error()
